@@ -108,7 +108,7 @@ class Payment_model extends CI_Model {
                // $sort = "DESC";
                // $limit = 1;
                // $id = 0;
-                //$this->db->select("CONCAT('INV', LPAD(payment_id,7,0)) as invoice_num");
+                //$this->db->select("CONCAT('INV', LPAD(payment_id + 1,5,0)) as invoice_num");
                // $this->db->from("shine_hospital_payment");
                // $this->db->order_by('payment_id', $sort);
                // $this->db->limit($limit,$id);
