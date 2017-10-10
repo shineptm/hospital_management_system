@@ -12,13 +12,30 @@ class Payment_model extends CI_Model {
          
     function getAllPayments(){
 
-       $this->db->select("pay.payment_id, pay.payment_invoice_no as invoice_no, pat.patient_name, doc.doc_name,"
+       $this->db->select("pay.pay_patient_id,pay.payment_id, pay.payment_invoice_no as invoice_no, pat.patient_name, doc.doc_name,"
                . "pay.payment_invoice_date as invoice_date, pay.payment_invoice_due_date as invoice_due_date,"
                . "pay.payment_total_amount as total_amount");
        $this->db->from("shine_hospital_payment pay");
        $this->db->join("shine_hospital_doctor doc", "doc.doctor_id = pay.pay_doctor_id","INNER");
        $this->db->join("shine_hospital_patient pat", "pat.patient_id = pay.pay_patient_id","INNER");
 
+
+
+       $query = $this->db->get();
+
+       return $query->result_array();
+
+    }
+   
+    function getAllPaymentsByPatientId($patientid){
+
+       $this->db->select("pay.pay_patient_id,pay.payment_id, pay.payment_invoice_no as invoice_no, pat.patient_name, doc.doc_name,"
+               . "pay.payment_invoice_date as invoice_date, pay.payment_invoice_due_date as invoice_due_date,"
+               . "pay.payment_total_amount as total_amount");
+       $this->db->from("shine_hospital_payment pay");
+       $this->db->join("shine_hospital_doctor doc", "doc.doctor_id = pay.pay_doctor_id","INNER");
+       $this->db->join("shine_hospital_patient pat", "pat.patient_id = pay.pay_patient_id","INNER");
+       $this->db->where('pay.pay_patient_id', $patientid);
 
 
        $query = $this->db->get();
@@ -108,7 +125,7 @@ class Payment_model extends CI_Model {
                // $sort = "DESC";
                // $limit = 1;
                // $id = 0;
-                //$this->db->select("CONCAT('INV', LPAD(payment_id + 1,5,0)) as invoice_num");
+                //$this->db->select("CONCAT('INV', LPAD(payment_id,7,0)) as invoice_num");
                // $this->db->from("shine_hospital_payment");
                // $this->db->order_by('payment_id', $sort);
                // $this->db->limit($limit,$id);
