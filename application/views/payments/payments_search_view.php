@@ -26,12 +26,33 @@
                         <div class="white-box">
                             <h3 class="box-title m-b-0">Hospital Payments Details</h3>
                             
-                            <?php if(!isset($payment_array) && empty($payment_array)) { ?>
-                             <form role="search" class="app-search hidden-xs">
-                            <input type="text" placeholder="Search..." class="form-control"> 
-                            <i class="fa fa-search"></i>
-                            </form>
+                            <!--<input type="text" name="invsearch" placeholder="Search..." class="form-control">-->
+                            <div style="display:inline-block;">
+                            <?php 
+                            $pat_id = 0;
+                            if(isset($payment_array) && !empty($payment_array)) { 
+                                $pat_id = $payment_array[0]['pay_patient_id'];
+                            } 
+                             ?>
+                                <form name="frmsearch" method="post" 
+                                      action="<?php echo site_url(); ?>/payments/payment/searchInvoice/">
+                                    <input type="hidden" name="patId" id="patId" value="" />
+                             <select name="patient_name" id="patient_name">
+                                <option value="0">-- Select Patient --</option>
+                             
+                            <?php foreach($patient_name_arr as $patients) { ?>
+                                <option  value="<?php echo $patients['patient_id']; ?>"
+                                         <?php echo ($pat_id == $patients['patient_id']) ?  'selected' :  '' ; ?> >
+                                    <?php echo $patients['patient_name']; ?>
+                                </option>
                             <?php } ?>
+                            </select>
+                          
+                               <button type="submit" class="btn btn-info waves-effect waves-light m-r-10">Search</button>
+                                
+                            </form>
+                            </div>
+                         
                             <hr>
                             
                             <?php if(isset($payment_array) && !empty($payment_array)) { ?>
@@ -73,7 +94,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <?php } else { ?>
+                            <?php } if(empty($payment_array) && isset($patient_name_arr) ){ ?>
                              <div class="table-responsive">
                                 <table class="table table-striped">
                                     <tr align="center">
@@ -89,3 +110,16 @@
             </div>
           
 <?php $this->load->view('themes/footer'); ?>
+
+<script type="text/javascript">
+    /*
+$(document).ready(function(){
+
+     $("#patient_name").change(function(){
+     var pid = $(this).val();
+     document.cookie = "patientId="+pid;
+     
+     });
+   });
+   */
+</script>
