@@ -1,1 +1,1 @@
-# hospital_management_system
+# CodeIgniter Application
